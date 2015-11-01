@@ -1,0 +1,131 @@
+public class Compare {
+
+	public Compare() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String RnaToProtein(String seq) {
+		String newArray = null;
+		int k = 0;
+		String aminoacid = "";
+		String aminoacidtemp = null;
+
+		for (k = 0; k < seq.length() - 3; k++) {
+			if (checkForStart(seq, k)) {
+				newArray = "M";
+				k += 3;
+				while (aminoacidtemp != "STOP ") {
+					aminoacidtemp = codonMatch(seq, k);
+					k += 3;
+					aminoacid += aminoacidtemp;
+				}
+				aminoacidtemp = "";
+				newArray = newArray + aminoacid;
+			}
+
+		}
+		return maxLength(newArray);
+	}
+
+	public String maxLength(String seq) {
+		int k = 0;
+		int max = 0;
+		int i = 0;
+		String[] orf = seq.split("STOP ");
+
+		for (i = 0; i < orf.length; i++) {
+			if (orf[i].length() > max) {
+
+				max = orf[i].length();
+				k = i;
+			}
+		}
+		return orf[k];
+
+	}
+
+	public String codonMatch(String seq, int k) {
+		char codon1 = seq.charAt(k);
+		char codon2 = seq.charAt(k + 1);
+		char codon3 = seq.charAt(k + 2);
+		String codon = Character.toString(codon1) + Character.toString(codon2)
+				+ Character.toString(codon3);
+		String protein = " ";
+		if (((codon.equals("UAG")) || (codon.equals("UGA")) || (codon
+				.equals("UAA")))) {
+			protein = "STOP ";
+		} else if (((codon.equals("UUU")) || (codon.equals("UUC")))) {
+			protein = "F";
+		} else if (((codon.equals("UUA")) || (codon.equals("UUG"))
+				|| (codon.equals("CUU")) || (codon.equals("CUG"))
+				|| (codon.equals("CUC")) || (codon.equals("CUA")))) {
+			protein = "L";
+		} else if (((codon.equals("AUU")) || (codon.equals("AUC")) || (codon
+				.equals("AUA")))) {
+			protein = "I";
+		} else if ((codon.equals("GUC")) || (codon.equals("GUU"))
+				|| (codon.equals("GUG")) || (codon.equals("GUA"))) {
+			protein = "V";
+		} else if ((codon.equals("UCA")) || (codon.equals("UCU"))
+				|| (codon.equals("UCG")) || (codon.equals("UCC"))) {
+			protein = "S";
+		} else if ((codon.equals("CCA")) || (codon.equals("CCU"))
+				|| (codon.equals("CCC")) || (codon.equals("CCG"))) {
+			protein = "P";
+		} else if ((codon.equals("ACG")) || (codon.equals("ACA"))
+				|| (codon.equals("ACC")) || (codon.equals("ACU"))) {
+			protein = "T";
+		} else if ((codon.equals("GCU")) || (codon.equals("GCA"))
+				|| (codon.equals("GCG")) || (codon.equals("GCC"))) {
+			protein = "A";
+		} else if ((codon.equals("UAU")) || (codon.equals("UAC"))) {
+			protein = "Y";
+		} else if ((codon.equals("CAU")) || (codon.equals("CAC"))) {
+			protein = "H";
+		} else if ((codon.equals("CAA")) || (codon.equals("CAG"))) {
+			protein = "Q";
+		} else if ((codon.equals("AAU")) || (codon.equals("AAC"))) {
+			protein = "N";
+		} else if ((codon.equals("AAA")) || (codon.equals("AAG"))) {
+			protein = "K";
+		} else if ((codon.equals("GAU")) || (codon.equals("GAC"))) {
+			protein = "D";
+		} else if ((codon.equals("GAA")) || (codon.equals("GAG"))) {
+			protein = "E";
+		} else if ((codon.equals("UGU")) || (codon.equals("UGC"))) {
+			protein = "C";
+		} else if ((codon.equals("UGG"))) {
+			protein = "W";
+		} else if ((codon.equals("CGU")) || (codon.equals("CGA"))
+				|| (codon.equals("CGC")) || (codon.equals("CGG"))) {
+			protein = "R";
+		} else if ((codon.equals("AGU")) || (codon.equals("AGC"))) {
+			protein = "S";
+		} else if ((codon.equals("AGA")) || (codon.equals("AGG"))) {
+			protein = "R";
+		} else if ((codon.equals("GGU")) || (codon.equals("GGA"))
+				|| (codon.equals("GGC")) || (codon.equals("GGG"))) {
+			protein = "G";
+		} else if ((codon.equals("AUG"))) {
+			protein = "M";
+		}
+
+		return protein;
+
+	}
+
+	public Boolean checkForStart(String seq, int k) {
+		char codon1 = seq.charAt(k);
+		char codon2 = seq.charAt(k + 1);
+		char codon3 = seq.charAt(k + 2);
+		String codon = Character.toString(codon1) + Character.toString(codon2)
+				+ Character.toString(codon3);
+		if (codon.equals("AUG")) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+}
